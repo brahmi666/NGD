@@ -1,0 +1,11 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+html {
+    background-size: cover;
+    background-attachment: fixed;
+
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+}

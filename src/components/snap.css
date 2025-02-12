@@ -1,0 +1,19 @@
+body {
+  background-color: rgba(240, 248, 255, 0.97);
+
+  scroll-behavior: smooth;
+  scroll-snap-type: mandatory;
+}
+/* snap.css */
+html,
+body {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+img {
+  transition: transform 0.3s ease-in-out;
+}
+.bl {
+  background-color: rgba(0, 0, 0, 0.404);
+}
