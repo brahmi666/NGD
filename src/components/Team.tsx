@@ -3,11 +3,24 @@ import "./TeamFanned.css";
 
 export function Team() {
   const team = [
-    { name: "Damino Issaoui", role: "Backend Developer", image: "/damn.jpg" },
-    { name: "Feres Brahmi", role: "Frontend Developer", image: "/feres.jpg" },
-    { name: "Amine Sbeii", role: "UX Designer", image: "/amine.jpg" },
-    { name: "Rami Sassi", role: "Backend Developer", image: "/rami.jpg" },
-    { name: "Aymen", role: "Directeur Créative", image: "/aymen.jpg" },
+    {
+      name: "Damino Issaoui",
+      role: "Backend Developer",
+      image: "public/damn.jpg",
+    },
+    {
+      name: "Feres Brahmi",
+      role: "Frontend Developer",
+      image: "public/feres.jpg",
+    },
+    { name: "Aymen", role: "Directeur Créative", image: "public/aymen.jpg" },
+    { name: "Amine Sbeii", role: "UX Designer", image: "public/amine.jpg" },
+    { name: "Rami Sassi", role: "Backend Developer", image: "public/rami.jpg" },
+    {
+      name: "Damino Issaoui",
+      role: "Backend Developer",
+      image: "public/damn.jpg",
+    },
   ];
 
   const containerVariants = {
@@ -29,8 +42,8 @@ export function Team() {
           viewport={{ once: true }}
           className="team-header"
         >
-          <h2>Notre Équipe</h2>
-          <p>Des experts passionnés par l&apos;innovation digitale</p>
+          <h2>Our Team</h2>
+          <p>Experts with a passion for digital innovation</p>
         </motion.div>
 
         {/* Cards Container */}
@@ -42,7 +55,11 @@ export function Team() {
           viewport={{ once: true }}
         >
           {team.map((member, index) => (
-            <motion.div key={index} className="team-card" variants={cardVariant}>
+            <motion.div
+              key={index}
+              className="team-card"
+              variants={cardVariant}
+            >
               <img src={member.image} alt={member.name} />
               <div className="team-info">
                 <h3>{member.name}</h3>

@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 import { Palette, Code, Monitor, Smartphone, Globe, Gauge } from "lucide-react";
 import "./snap.css";
@@ -6,42 +5,42 @@ import "./snap.css";
 export function Services() {
   const services = [
     {
-      category: "Communication & Marketing Digital",
+      category: "Communication & Digital Marketing",
       items: [
         {
           icon: <Palette />,
-          title: "Stratégie de marque & identité visuelle",
+          title: "Brand strategy & visual identity",
         },
         {
           icon: <Monitor />,
-          title: "Design graphique & Motion design",
+          title: "Graphic design & Motion design",
         },
         {
           icon: <Globe />,
-          title: "Gestion des réseaux sociaux",
+          title: "Social network management",
         },
       ],
     },
     {
-      category: "Développement Web & Mobile",
+      category: "Web & Mobile Development",
       items: [
         {
           icon: <Code />,
-          title: "Création de sites web",
+          title: "Website creation",
         },
         {
           icon: <Smartphone />,
-          title: "Applications mobiles",
+          title: "Mobile applications",
         },
         {
           icon: <Gauge />,
-          title: "Solutions SaaS",
+          title: "SaaS solutions",
         },
       ],
     },
   ];
   return (
-    <section id="services" className="py-20 blur-bg  ">
+    <section id="services" className="py-20 blur-bg   ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{
@@ -57,12 +56,12 @@ export function Services() {
           }}
           className="text-center mb-16 "
         >
-          <h2 className="text-4xl font-bold mb-4">Nos Services</h2>
+          <h2 className="text-4xl font-bold mb-4">Our Services</h2>
           <p className="text-gray-400">
-            Des solutions complètes pour votre présence digitale
+            Comprehensive solutions for your digital presence.
           </p>
         </motion.div>
-        <div className="grid md:grid-cols-2 gap-12  hover:scale-105 transition-all hover:cursor-pointer hover:backdrop-blur-none">
+        <div className="grid md:grid-cols-2 gap-12  hover:scale-105 transition-all hover:cursor-pointer ">
           {services.map((service, index) => (
             <motion.div
               key={service.category}
@@ -80,7 +79,7 @@ export function Services() {
               transition={{
                 delay: index * 0.2,
               }}
-              className="p-8 rounded-2xl bg-purple-900/10  backdrop-blur-lg border-purple-500/20"
+              className="p-8 rounded-2xl bg-black/50  backdrop-blur-lg border border-purple-500 shadow-purple-500/50"
             >
               <h3 className="text-2xl font-semibold mb-6">
                 {service.category}

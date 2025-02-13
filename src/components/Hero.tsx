@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { motion, useScroll } from "framer-motion";
 import "./snap.css";
 
@@ -19,7 +19,7 @@ export function Hero() {
   return (
     <section
       id="about"
-      className="h-screen grid items-center justify-center bl backdrop-blur-lg"
+      className="h-screen grid items-center justify-center bl backdrop-blur-lg border border-purple-500 border-t-0 "
     >
       {/* Animated Logo */}
       <motion.div
@@ -47,7 +47,7 @@ export function Hero() {
         }}
       >
         <img
-          src="/ngd.png"
+          src="public/ngd.png"
           alt="NGD Logo"
           className="h-44 w-auto origin-center"
         />
@@ -85,7 +85,7 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <button className="px-8 py-4 bg-purple-600 rounded-full text-lg font-semibold hover:bg-purple-500 transition-colors">
+          <button className="px-8 py-4 bg-purple-600 rounded-2xl text-lg font-semibold hover:bg-purple-500 transition-colors ">
             Discover Our Work!
           </button>
         </motion.a>

@@ -80,10 +80,8 @@ export function Portfolio() {
           viewport={{ once: true }}
           className="portfolio-header"
         >
-          <h2 className="portfolio-title">Nos Réalisations</h2>
-          <p className="portfolio-description">
-            Découvrez nos projets les plus marquants
-          </p>
+          <h2 className="portfolio-title">Our achievements</h2>
+          <p className="portfolio-description">Discover our latest projects</p>
         </motion.div>
         <div className="portfolio-grid">
           {projects.map((project, index) => (
