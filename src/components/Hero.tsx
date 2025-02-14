@@ -1,27 +1,42 @@
-import  { useState, useEffect } from "react";
-import { motion, useScroll } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import "./snap.css";
 
 export function Hero() {
-  const { scrollY } = useScroll();
   const [scale, setScale] = useState(1);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const minScale = 0.4;
   const scaleSpeed = 300;
 
   useEffect(() => {
-    return scrollY.on("change", (latest) => {
-      let newScale = 1 - latest / scaleSpeed;
-      newScale = Math.max(minScale, Math.min(1, newScale));
-      setScale(newScale);
-    });
-  }, [scrollY]);
+    const handleScroll = () => {
+      requestAnimationFrame(() => {
+        const newScale = 1 - window.scrollY / scaleSpeed;
+        setScale(Math.max(minScale, Math.min(1, newScale)));
+      });
+    };
+
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  // Calculate image size based on the window width
+  const imageSize = windowWidth < 768 ? "h-32" : "h-44"; // Adjust size on smaller screens
 
   return (
     <section
       id="about"
-      className="h-screen grid items-center justify-center bl backdrop-blur-lg border border-purple-500 border-t-0 "
+      className="h-screen grid items-center justify-center bl backdrop-blur-sm border-t-0"
     >
-      {/* Animated Logo */}
+      {/* Animated Logo (Position Kept) */}
       <motion.div
         style={{
           position: "fixed",
@@ -32,36 +47,28 @@ export function Hero() {
           scale: scale,
           pointerEvents: "none",
         }}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{
-          opacity: 1,
-          y: 0,
-          rotate: 360,
-          transition: {
-            rotate: {
-              repeat: Infinity,
-              duration: 8,
-              ease: "linear",
-            },
-          },
-        }}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
       >
         <img
-          src="public/ngd.png"
+          src="/ngd.png"
           alt="NGD Logo"
-          className="h-44 w-auto origin-center"
+          className={`${imageSize} w-auto origin-center`}
+          loading="lazy"
         />
       </motion.div>
 
       {/* Content Section */}
-      <div className="text-center max-w-4xl mx-auto px-4 pt-[20vh]">
+      <div className="text-center max-w-4xl mx-auto px-4 pt-20 md:pt-[20vh]">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-5xl md:text-7xl font-bold mb-6"
+          className="text-4xl md:text-7xl font-bold mb-6"
         >
-          New Generation of Developers{" "}
+          <p>New Generation</p>
+          <p>of Developers</p>
           <span className="text-purple-500 text-xl block mt-4">
             Transforming Ideas into Reality
           </span>
@@ -85,7 +92,7 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <button className="px-8 py-4 bg-purple-600 rounded-2xl text-lg font-semibold hover:bg-purple-500 transition-colors ">
+          <button className="px-8 py-4 bg-purple-600 rounded-2xl text-lg font-semibold hover:bg-purple-500 transition-colors">
             Discover Our Work!
           </button>
         </motion.a>

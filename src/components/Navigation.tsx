@@ -31,7 +31,7 @@ export function Navigation() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`fixed w-full z-50 transition-all duration-300 ${
-        isScrolled ? "bg-black/80 backdrop-blur-md" : "bg-transparent"
+        isScrolled ? "bg-black/80" : "bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -41,11 +41,6 @@ export function Navigation() {
             animate={{ opacity: 1 }}
             className="h-8"
           >
-            <img
-              src="public/5b3cc4d8-256a-4d9b-80f5-10a5493c2ad5.jpg"
-              alt="NGD Logo"
-              className="h-full w-full"
-            />
           </motion.div>
 
           {/* Desktop Navigation */}
@@ -88,7 +83,7 @@ export function Navigation() {
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    className="absolute right-0 mt-2 w-64 backdrop-blur-lg bg-black/50 text-white shadow-lg rounded-lg p-5 border border-purple-600 shadow-purple-500/50"
+                    className="absolute right-0 mt-2 w-64  bg-black/50 text-white shadow-lg rounded-lg p-5 border border-purple-600 shadow-purple-500/50"
                   >
                     <p className="text-white font-bold">📞 (+216) 20250297</p>
                     <hr className="my-2 border-gray-500" />
@@ -125,7 +120,7 @@ export function Navigation() {
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className="absolute top-16 right-4 w-64 backdrop-blur-lg bg-black/50 text-white shadow-lg rounded-lg p-5 border border-purple-600 shadow-purple-500/50"
+                  className="absolute top-16 right-4 w-64  bg-black/50 text-white shadow-lg rounded-lg p-5 border border-purple-600 shadow-purple-500/50"
                 >
                   <p className="text-white font-bold">📞 (+216) 20250297</p>
                   <hr className="my-2 border-gray-500" />

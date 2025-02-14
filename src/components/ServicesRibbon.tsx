@@ -46,6 +46,18 @@ const logos = [
     name: "Express.js",
     url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg",
   },
+  {
+    name: "Figma",
+    url: "https://raw.githubusercontent.com/devicons/devicon/6910f0503efdd315c8f9b858234310c06e04d9c0/icons/figma/figma-original.svg",
+  },
+  {
+    name: "Android",
+    url: "https://raw.githubusercontent.com/devicons/devicon/6910f0503efdd315c8f9b858234310c06e04d9c0/icons/androidstudio/androidstudio-original.svg",
+  },
+  {
+    name: "git",
+    url: "https://raw.githubusercontent.com/devicons/devicon/6910f0503efdd315c8f9b858234310c06e04d9c0/icons/git/git-original.svg",
+  },
 ];
 
 // Duplicate logos for seamless infinite scrolling
@@ -53,9 +65,7 @@ const repeatedLogos = [...logos, ...logos];
 
 export function ServicesRibbon() {
   return (
-    
     <motion.div
-    
       className="services-ribbon"
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -65,7 +75,12 @@ export function ServicesRibbon() {
       <div className="ribbon-track">
         {repeatedLogos.map((logo, index) => (
           <div key={index} className="ribbon-item">
-            <img src={logo.url} alt={logo.name} title={logo.name} />
+            <img
+              src={logo.url}
+              alt={logo.name}
+              title={logo.name}
+              loading="lazy"
+            />
           </div>
         ))}
       </div>

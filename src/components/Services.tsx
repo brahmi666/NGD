@@ -40,7 +40,7 @@ export function Services() {
     },
   ];
   return (
-    <section id="services" className="py-20 blur-bg   ">
+    <section id="services" className="py-20  ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{
@@ -61,7 +61,7 @@ export function Services() {
             Comprehensive solutions for your digital presence.
           </p>
         </motion.div>
-        <div className="grid md:grid-cols-2 gap-12  hover:scale-105 transition-all hover:cursor-pointer ">
+        <div className="grid md:grid-cols-2 gap-12  transition-all  ">
           {services.map((service, index) => (
             <motion.div
               key={service.category}
@@ -79,7 +79,7 @@ export function Services() {
               transition={{
                 delay: index * 0.2,
               }}
-              className="p-8 rounded-2xl bg-black/50  backdrop-blur-lg border border-purple-500 shadow-purple-500/50"
+              className="p-8 rounded-2xl bg-black/50 "
             >
               <h3 className="text-2xl font-semibold mb-6">
                 {service.category}

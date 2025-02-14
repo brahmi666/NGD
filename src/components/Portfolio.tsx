@@ -1,106 +1,122 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "./portfolio.css";
 
+interface Project {
+  title: string;
+  category: string;
+  image: string;
+  image1: string;
+  image2: string;
+  image3: string;
+}
+
+const projects: Project[] = [
+  {
+    title: "Application E-commerce",
+    category: "Web Development",
+    image: "/amatun.jpg",
+    image1: "/amatun1.jpg",
+    image2: "/amatun2.jpg",
+    image3: "/amatun3.jpg",
+  },
+  {
+    title: "Application Mobile",
+    category: "Mobile Development",
+    image: "/mobile.jpg",
+    image1: "/mobile1.jpg",
+    image2: "/mobile2.jpg",
+    image3: "/mobile3.jpg",
+  },
+  {
+    title: "Branding Corporate",
+    category: "Design",
+    image: "/brand.jpg",
+    image1: "/brand1.png",
+    image2: "/brand2.png",
+    image3: "/brand3.jpg",
+  },
+];
+
 export function Portfolio() {
-  const [selectedProject, setSelectedProject] = useState<{
-    title: string;
-    category: string;
-    image: string;
-    image1: string;
-    image2: string;
-    image3: string;
-    image4?: string;
-  } | null>(null);
-
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [expandedView, setExpandedView] = useState(false);
+  const [loading, setLoading] = useState(false); // Track loading state
 
-  // Reset slider index and expanded view whenever a new project is selected
-  useEffect(() => {
-    setCurrentSlide(0);
-    setExpandedView(false);
-  }, [selectedProject]);
+  const sliderImages = useMemo(
+    () =>
+      selectedProject
+        ? [
+            selectedProject.image1,
+            selectedProject.image2,
+            selectedProject.image3,
+          ]
+        : [],
+    [selectedProject]
+  );
 
-  const projects = [
-    {
-      title: "Refonte E-commerce",
-      category: "Web Development",
-      image:
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2426&q=80",
-      image1: "public/amatun1.jpg",
-      image2: "public/amatun2.jpg",
-      image3: "public/amatun3.jpg",
-      image4: "public/amatun4.jpg",
-    },
-    {
-      title: "Application Mobile",
-      category: "Mobile Development",
-      image:
-        "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
-      image1: "public/mobile1.jpg",
-      image2: "public/mobile2.jpg",
-      image3: "public/mobile3.jpg",
-    },
-    {
-      title: "Branding Corporate",
-      category: "Design",
-      image:
-        "https://images.unsplash.com/photo-1634942537034-2531766767d1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
-      image1: "public/brand1.jpg",
-      image2: "public/brand4.jpg",
-      image3: "public/brand3.jpg",
-    },
-  ];
-
-  // Build an array of slider images from the selected project
-  const sliderImages = selectedProject
-    ? [selectedProject.image1, selectedProject.image2, selectedProject.image3]
-    : [];
-
-  // Handlers for slider navigation
-  const nextSlide = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % sliderImages.length);
-  };
+  }, [sliderImages.length]);
 
-  const prevSlide = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const prevSlide = useCallback(() => {
     setCurrentSlide((prev) =>
       prev === 0 ? sliderImages.length - 1 : prev - 1
     );
+  }, [sliderImages.length]);
+
+  // Function to preload images before showing the modal
+  const preloadImages = (project: Project) => {
+    setLoading(true);
+
+    const imageUrls = [
+      project.image,
+      project.image1,
+      project.image2,
+      project.image3,
+    ];
+    const imagePromises = imageUrls.map((src) => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = resolve;
+      });
+    });
+
+    // Wait until all images are loaded before setting the project
+    Promise.all(imagePromises).then(() => {
+      setLoading(false);
+      setSelectedProject(project);
+    });
   };
 
   return (
-    <section id="portfolio" className="portfolio-section">
+    <section className="portfolio-section">
       <div className="portfolio-container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="portfolio-header"
-        >
-          <h2 className="portfolio-title">Our achievements</h2>
-          <p className="portfolio-description">Discover our latest projects</p>
-        </motion.div>
+        <h2 className="portfolio-title">Our Achievements</h2>
+        <p className="portfolio-description">Discover our latest projects</p>
+
         <div className="portfolio-grid">
           {projects.map((project, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
               className="portfolio-card"
-              onClick={() => setSelectedProject(project)}
+              onClick={() => preloadImages(project)} // Load all images when clicking
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
             >
-              <img
+              <motion.img
                 src={project.image}
                 alt={project.title}
                 className="portfolio-image"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.3 }}
               />
               <div className="portfolio-overlay">
-                <h3 className="portfolio-card-title">{project.title}</h3>
-                <p className="portfolio-card-category">{project.category}</p>
+                <h3>{project.title}</h3>
+                <p>{project.category}</p>
               </div>
             </motion.div>
           ))}
@@ -108,90 +124,52 @@ export function Portfolio() {
       </div>
 
       <AnimatePresence>
-        {selectedProject && (
+        {loading && (
+          <div className="loading-overlay">
+            <div className="spinner">Loading images...</div>
+          </div>
+        )}
+
+        {selectedProject && !loading && (
           <motion.div
             className="portfolio-modal"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.3 }}
-            onClick={() => setSelectedProject(null)}
-          >
-            <motion.div
-              className="portfolio-modal-content"
-              initial={{ y: 50 }}
-              animate={{ y: 0 }}
-              exit={{ y: 50 }}
-              transition={{ duration: 0.3 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="slider">
-                <motion.img
-                  key={sliderImages[currentSlide]}
-                  src={sliderImages[currentSlide]}
-                  alt={`${selectedProject.title} slide ${currentSlide + 1}`}
-                  className="slider-image"
-                  initial={{ opacity: 0, x: 100 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -100 }}
-                  transition={{ duration: 0.5 }}
-                />
-                <div className="slider-controls">
-                  <button className="prev-button" onClick={prevSlide}>
-                    &lt;
-                  </button>
-                  <button className="next-button" onClick={nextSlide}>
-                    &gt;
-                  </button>
-                </div>
-                <button
-                  className="expand-button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setExpandedView(true);
-                  }}
-                >
-                  Expand
-                </button>
-              </div>
-              <div className="modal-description">
-                <h3 className="modal-title">{selectedProject.title}</h3>
-                <p className="modal-category">{selectedProject.category}</p>
-                {/* Additional description content can go here */}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {expandedView && (
-          <motion.div
-            className="expanded-view-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            onClick={() => setSelectedProject(null)}
             transition={{ duration: 0.3 }}
-            onClick={() => setExpandedView(false)}
           >
-            <motion.img
-              src={sliderImages[currentSlide]}
-              alt="Expanded view"
-              className="expanded-image"
+            <motion.div
+              className="portfolio-modal-content"
+              onClick={(e) => e.stopPropagation()}
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.8 }}
-              transition={{ duration: 0.3 }}
-            />
-            <button
-              className="close-expanded-button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setExpandedView(false);
-              }}
+              transition={{ type: "spring", stiffness: 300 }}
             >
-              Close
-            </button>
+              <button className="prev-button" onClick={prevSlide}>
+                &lt;
+              </button>
+              <motion.img
+                src={sliderImages[currentSlide]}
+                alt="Project Slide"
+                className="slider-image"
+                key={sliderImages[currentSlide]}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              />
+              <button className="next-button" onClick={nextSlide}>
+                &gt;
+              </button>
+              <button
+                className="close-button"
+                onClick={() => setSelectedProject(null)}
+              >
+                Close
+              </button>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
